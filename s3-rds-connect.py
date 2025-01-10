@@ -51,5 +51,20 @@ def create_database_and_table():
             connection.close()
             print("Connection closed.")
 
-# Call the function to create the database and table
-create_database_and_table()
+# Lambda handler function
+def lambda_handler(event, context):
+    """
+    This is the AWS Lambda handler function.
+    It gets triggered by the Lambda environment and initiates the process.
+    """
+    try:
+        create_database_and_table()
+        return {
+            "statusCode": 200,
+            "body": f"Database '{NEW_DB_NAME}' and table '{TABLE_NAME}' created successfully."
+        }
+    except Exception as e:
+        return {
+            "statusCode": 500,
+            "body": f"An error occurred: {str(e)}"
+        }
