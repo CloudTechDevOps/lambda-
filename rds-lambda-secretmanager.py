@@ -1,7 +1,7 @@
 import json
 import boto3
 import pymysql
-
+import os 
 # Define DB and table
 new_db_name = "test"
 table_name = "mytable"
@@ -17,7 +17,7 @@ def get_secret(secret_name):
 # Connect to RDS
 def connect_to_rds(secret):
     connection = pymysql.connect(
-        host=secret['host'],
+        host=os.environ['host'],
         user=secret['username'],
         password=secret['password'],
         cursorclass=pymysql.cursors.DictCursor
@@ -26,7 +26,7 @@ def connect_to_rds(secret):
 
 # Lambda handler
 def lambda_handler(event, context):
-    secret_name = "your-secret-name"  # Replace with your secret name
+    secret_name = "rds!db-b6e6b6a3-f337-4c9d-9ace-7de0a88e602b"  # Replace with your secret name
     try:
         secret = get_secret(secret_name)
         connection = connect_to_rds(secret)
